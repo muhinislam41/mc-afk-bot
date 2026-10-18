@@ -13,10 +13,10 @@ app.listen(port, () => {
 });
 
 function createBot() {
-  console.log('Connecting AFK Bot to 65.21.82.29:42060...');
+  console.log('Connecting AFK Bot to mc2168571.fmcs.cloud:42060...');
 
   const client = bedrock.createClient({
-    host: '65.21.82.29',
+    host: 'mc2168571.fmcs.cloud',
     port: 42060,
     username: 'AFK_Bot',
     offline: true,
