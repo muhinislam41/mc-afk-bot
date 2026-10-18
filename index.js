@@ -1,47 +1,41 @@
-const express = require('express');
 const bedrock = require('bedrock-protocol');
+const express = require('express');
 
-// Render-এর সার্ভিস অ্যাক্টিভ রাখার জন্য ওয়েবাসার্ভার
 const app = express();
-const PORT_WEB = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 app.get('/', (req, res) => {
-  res.send('Minecraft AFK Bot is running 24/7 on Render!');
+  res.send('AFK Bot is running!');
 });
 
-app.listen(PORT_WEB, () => {
-  console.log(`Web server running on port ${PORT_WEB}`);
+app.listen(port, () => {
+  console.log(`Web server running on port ${port}`);
 });
 
-// মাইনক্রাফট বেডরক বট সেটিংস
-const HOST = 'Mulaali.enderman.cloud';
-const PORT = 42060;
-const USERNAME = 'AFK_Bot_247'; 
+function createBot() {
+  console.log('Connecting AFK Bot to Mulaali.enderman.cloud:42060...');
 
-function connectBot() {
-    console.log(`Connecting AFK Bot to ${HOST}:${PORT}...`);
+  const client = bedrock.createClient({
+    host: 'Mulaali.enderman.cloud',
+    port: 42060,
+    username: 'AFK_Bot',
+    offline: true,
+    version: '1.26.52'
+  });
 
-    const client = bedrock.createClient({
-        host: HOST,
-        port: PORT,
-        username: USERNAME,
-        offline: true,
-        skipPing: true // এই অপশনটি Ping এরর বাইপাস করবে
-    });
+  client.on('join', () => {
+    console.log('Bot successfully joined the server!');
+  });
 
-    client.on('join', () => {
-        console.log('Bot successfully joined the server!');
-    });
+  client.on('disconnect', (packet) => {
+    console.log('Bot disconnected:', packet);
+    setTimeout(createBot, 5000);
+  });
 
-    client.on('disconnect', (packet) => {
-        console.log('Bot disconnected:', packet.reason);
-        console.log('Reconnecting in 15 seconds...');
-        setTimeout(connectBot, 15000);
-    });
-
-    client.on('error', (err) => {
-        console.log('Error:', err.message);
-    });
+  client.on('error', (err) => {
+    console.log('Error:', err.message);
+    setTimeout(createBot, 5000);
+  });
 }
 
-connectBot();
+createBot();
