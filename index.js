@@ -25,7 +25,8 @@ function connectBot() {
         host: HOST,
         port: PORT,
         username: USERNAME,
-        offline: true 
+        offline: true,
+        skipPing: true // এই অপশনটি Ping এরর বাইপাস করবে
     });
 
     client.on('join', () => {
