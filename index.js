@@ -20,7 +20,8 @@ function createBot() {
     port: 42060,
     username: 'AFK_Bot',
     offline: true,
-    version: '1.26.51'
+    version: '1.26.51',
+    skipPing: true // পিং ডিটেকশন বাইপাস করার জন্য
   });
 
   client.on('join', () => {
