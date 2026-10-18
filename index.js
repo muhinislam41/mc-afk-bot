@@ -20,7 +20,7 @@ function createBot() {
     port: 42060,
     username: 'AFK_Bot',
     offline: true,
-    version: '1.26.52'
+    version: '1.26.51'
   });
 
   client.on('join', () => {
